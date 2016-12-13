@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: demo
+spec:
+  replicas: 1
+  selector:
+    name: demo
+    version: 0.1.0
+  template:
+    metadata:
+      labels:
+        name: demo
+        version: 0.1.0
+    spec:
+      containers:
+      - image: domix/gdg-lima-talk:0.1.0
+        name: demo
+        livenessProbe:          
+          httpGet:
+            path: /version
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 8080
+          protocol: TCP
